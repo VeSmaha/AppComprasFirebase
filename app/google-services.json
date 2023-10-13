@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "339547794642",
+    "project_id": "appcompras-3ab82",
+    "storage_bucket": "appcompras-3ab82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339547794642:android:28b24e9de56daf00bd110b",
+        "android_client_info": {
+          "package_name": "com.example.appcompras"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxt7asiOpMMP8QCVX9lyW42GBOlrswoIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
