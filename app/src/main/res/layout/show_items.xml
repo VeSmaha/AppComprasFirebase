@@ -1,39 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:layout_width="251dp"
-        android:layout_height="67dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:gravity="center_vertical"
-        android:text="@string/lista_de_compras"
-        android:textColor="@color/blue"
-        android:textSize="30dp">
-
-    </TextView>
+    tools:context=".ShowItemsActivity">
 
     <Button
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/adicionar_item"
-        android:background="@color/blue"
-        android:textColor="@color/white"
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Adicionar Item" />
 
-    <ListView
-        android:id="@+id/itemListView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textColor="@color/blue"
-        />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/addButton"
+        android:layout_marginTop="8dp" />
+</RelativeLayout>
+
 
