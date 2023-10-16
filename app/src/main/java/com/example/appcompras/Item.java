@@ -4,7 +4,7 @@ public class Item {
     private String nome;
 
     public Item() {
-        // Requer um construtor vazio para Firestore
+        // Construtor vazio necessário para Firestore
     }
 
     public Item(String nome) {
@@ -15,5 +15,3 @@ public class Item {
         return nome;
     }
 }
-
-

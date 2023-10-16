@@ -1,8 +1,10 @@
 package com.example.appcompras;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,12 +21,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowItemsActivity extends AppCompatActivity {
+public class ShowItens extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ItemAdapter itemAdapter;
     private List<Item> itemList;
     private FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class ShowItemsActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        ItemAdapter adapter;
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         itemList = new ArrayList<>();
@@ -45,7 +49,7 @@ public class ShowItemsActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ShowItemsActivity.this, AddItemActivity.class));
+                startActivity(new Intent(ShowItens.this, AddItem.class));
             }
         });
 
@@ -71,11 +75,13 @@ public class ShowItemsActivity extends AppCompatActivity {
                     }
                 });
 
+
     }@Override
     protected void onResume() {
         super.onResume();
         carregarItens();
     }
+
     private void carregarItens() {
         // Consulte o Firebase Firestore para obter a lista de itens
         db.collection("items")

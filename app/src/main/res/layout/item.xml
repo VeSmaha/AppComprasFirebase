@@ -12,5 +12,12 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold" />
+    <!-- item.xml -->
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editar" />
+
 
 </LinearLayout>
