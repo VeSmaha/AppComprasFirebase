@@ -21,5 +21,7 @@
         android:layout_below="@+id/itemNameEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Salvar" />
+        android:text="Salvar"
+
+        />
 </RelativeLayout>

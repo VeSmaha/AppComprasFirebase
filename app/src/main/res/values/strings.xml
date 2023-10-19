@@ -10,4 +10,5 @@
     <string name="item_adicionado_com_sucesso" translatable="true">Item adicionado com sucesso</string>
     <string name="deseja_excluir" translatable="true">Deseja excluir?</string>
     <string name="valido" translatable="true">Por favor, insira um item válido.</string>
+    <string name="editar">Editar</string>
 </resources>

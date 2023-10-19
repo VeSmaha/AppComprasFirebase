@@ -3,21 +3,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="8dp">
 
     <TextView
         android:id="@+id/itemNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:padding="20dp"
+        />
     <!-- item.xml -->
     <Button
         android:id="@+id/editButton"
+        android:textSize="19sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/editar" />
+    <Button
+        android:id="@+id/excluiButton"
+        android:textSize="19sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/excluir"
+        android:layout_marginEnd="20dp"
+
+        />
 
 
 </LinearLayout>

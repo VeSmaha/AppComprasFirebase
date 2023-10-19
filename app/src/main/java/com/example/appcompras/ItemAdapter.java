@@ -17,10 +17,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     private List<Item> itemList;
 
+    private ItemDeleteListener deleteListener;
 
-
-    public ItemAdapter(List<Item> itemList) {
+    public ItemAdapter(List<Item> itemList,ItemDeleteListener deleteListener) {
         this.itemList = itemList;
+        this.deleteListener = deleteListener;
+
+    }
+
+    public interface ItemDeleteListener {
+        void onDeleteItem(String nomeDoItem);
     }
 
     @NonNull
@@ -47,11 +53,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 intent.putExtra("itemToEdit", item.getNome());
                 v.getContext().startActivity(intent);
             }
+
         });
-
-        // ... Outras lógicas de ViewHolder
-    }
-
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nomeDoItem = item.getNome();
+                if (deleteListener != null) {
+                    deleteListener.onDeleteItem(nomeDoItem);
+                }
+            }
+        });
+            // ... Outras lógicas de ViewHolder
+        }
 
     @Override
     public int getItemCount() {
@@ -64,10 +78,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         TextView itemNameTextView;
         Button editButton;
 
+        Button deleteButton;
+
         public ItemViewHolder(View itemView) {
             super(itemView);
             itemNameTextView = itemView.findViewById(R.id.itemNameTextView);
             editButton = itemView.findViewById(R.id.editButton);
+            deleteButton = itemView.findViewById(R.id.excluiButton);
         }
     }
 

@@ -6,13 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ShowItemsActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lista_de_compras"
+        android:textSize="24sp"
+        android:layout_margin="20dp"
+        />
+
     <Button
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Adicionar Item" />
+        android:textSize="22sp"
+        android:text="@string/adicionar_item" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -2,6 +2,7 @@ package com.example.appcompras;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,13 +24,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowItens extends AppCompatActivity {
+public class ShowItens extends AppCompatActivity implements ItemAdapter.ItemDeleteListener{
+    // Resto da classe ShowItens
 
     private RecyclerView recyclerView;
     private ItemAdapter itemAdapter;
     private List<Item> itemList;
     private FirebaseFirestore db;
-
+    @Override
+    public void onDeleteItem(String nomeDoItem) {
+        excluirItem(nomeDoItem);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +43,14 @@ public class ShowItens extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        ItemAdapter adapter;
+
+
+        itemList = new ArrayList<>();
+        itemAdapter = new ItemAdapter(itemList, this);
+
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        itemList = new ArrayList<>();
-        itemAdapter = new ItemAdapter(itemList);
         recyclerView.setAdapter(itemAdapter);
 
         carregarItens();
@@ -58,10 +68,7 @@ public class ShowItens extends AppCompatActivity {
         db.collection("items")
                 .orderBy("nome", Query.Direction.ASCENDING)
                 .addSnapshotListener(this, (queryDocumentSnapshots, e) -> {
-                    if (e != null) {
-                        // Trate erros aqui
-                        return;
-                    }
+
 
                     for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
                         switch (dc.getType()) {
@@ -103,5 +110,44 @@ public class ShowItens extends AppCompatActivity {
                 });
     }
 
+    private void excluirItem(String nomeDoItem) {
+        Log.d("Firestore", "nome do documento: " + nomeDoItem);
+        // Consulte o Firebase Firestore para encontrar o ID do documento com base no nome
+        db.collection("items")
+                .whereEqualTo("nome", nomeDoItem)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Encontrou um documento com o nome correspondente
+                                String itemId = document.getId();
+                                Log.d("Firestore", "ID do documento: " + itemId);
+                                // Agora, exclua o documento usando o ID
+                                db.collection("items")
+                                        .document(itemId)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // Item excluído com sucesso
+                                                // Você pode atualizar a lista de itens se necessário
+                                                carregarItens();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Trate erros aqui
+                                            }
+                                        });
+                            }
+                        } else {
+                            // Trate erros aqui
+                        }
+                    }
+                });
+    }
 
 }
