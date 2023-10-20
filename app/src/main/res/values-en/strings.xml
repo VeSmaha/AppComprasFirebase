@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppShoppingList</string>
+    <string name="adicionar_item">Add Item</string>
+    <string name="adicionar">Add</string>
+    <string name="lista_de_compras">Shopping List</string>
+    <string name="voltar">Return</string>
+    <string name="excluir" >Delete</string>
+    <string name="cancelar" >Cancel</string>
+    <string name="item_adicionado_com_sucesso">Item added successfully</string>
+    <string name="deseja_excluir">Do you want to delete?</string>
+    <string name="item_excluido_com_sucesso">Item deleted successfully!</string>
+    <string name="valido" >Please enter a valid item.</string>
+    <string name="editar">Edit</string>
+    <string name="falhacarregar">Failed to load the list.</string>
+    <string name="falhaexcluir">Error while deleting the item.</string>
+    <string name="falhacoonsulta">Error in item query.</string>
+    <string name="falhaadd">Error while adding the item</string>
+    <string name="itemupdate">Item updated successfully.</string>
+    <string name="falhaupdate">Error while updating the item.</string>
+</resources>

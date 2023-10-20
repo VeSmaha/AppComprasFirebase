@@ -1,14 +1,23 @@
 <resources>
     <string name="app_name">AppListaComprast</string>
-    <string name="adicionar_item" translatable="true">adicionar item</string>
-    <string name="adicionar" translatable="true">Adicionar</string>
-    <string name="lista_de_compras" translatable="true">Lista de Compras</string>
-    <string name="voltar" translatable="true">Voltar</string>
-    <string name="excluir" translatable="true">Excluir</string>
-    <string name="cancelar" translatable="true">Cancelar</string>
-    <string name="item_excluido_com_sucesso" translatable="true">Item excluído com sucesso!</string>
-    <string name="item_adicionado_com_sucesso" translatable="true">Item adicionado com sucesso</string>
-    <string name="deseja_excluir" translatable="true">Deseja excluir?</string>
-    <string name="valido" translatable="true">Por favor, insira um item válido.</string>
+    <string name="adicionar_item">adicionar item</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="lista_de_compras">Lista de Compras</string>
+    <string name="voltar">Voltar</string>
+    <string name="excluir">Excluir</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="item_excluido_com_sucesso">Item excluído com sucesso!</string>
+    <string name="item_adicionado_com_sucesso">Item adicionado com sucesso</string>
+    <string name="deseja_excluir">Deseja excluir?</string>
+    <string name="valido">Por favor, insira um item válido.</string>
     <string name="editar">Editar</string>
+    <string name="falhacarregar">"Falha ao carregar lista"</string>
+    <string name="falhaexcluir">"Erro ao excluir item"</string>
+    <string name="falhacoonsulta">Erro na consulta do item</string>
+    <string name="falhaadd">Erro ao add item</string>
+    <string name="itemupdate"> Item atualizado com sucesso</string>
+    <string name="falhaupdate">Erro ao atualizar item</string>
+    <string name="nome_do_item">Nome do Item</string>
+
+
 </resources>

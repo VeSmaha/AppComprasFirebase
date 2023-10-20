@@ -1,7 +1,9 @@
 package com.example.appcompras;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,40 +47,58 @@ public class AddItem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_item);
+        //seta layout
 
+        //inicializa o firestore
         db = FirebaseFirestore.getInstance();
 
+
+        //resgata campos
         itemNameEditText = findViewById(R.id.itemNameEditText);
         saveButton = findViewById(R.id.saveButton);
 
         Intent intent = getIntent();
+        //obtem o intent que foi enviado de outra acao para resgatar informaçoes
         String itemToEdit = intent.getStringExtra("itemToEdit");
+        //tenta obter uma string chamada itemToEdit dos extras da intent,
+        //que sao dados adicionais que podem ser passados
 
+
+        //se essa string for nula quer dizer que o item nao foi add ainda
+
+        //se nao for nula, pega o nome do item a ser editado e seta no campo itemNameEditText
         if (itemToEdit != null) {
             itemNameEditText.setText(itemToEdit);
         }
 
 
+        //quando clicar no botao de salvar
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //pega o valor do campo com a string editada ou uma nova string
                 String newItemName = itemNameEditText.getText().toString();
+                //se o campo enviado pelo intent nao for vazio
                 if (itemToEdit != null) {
-                    // Esta é uma edição, atualize o item existente no Firestore
+                    // Esta é uma edição, atualiza o item existente no Firestore
+                    //enviando o nome antigo e o novo nome
                     updateItemInFirestore(itemToEdit, newItemName);
-                    Log.d("Firestore", "ID do documento: " + itemToEdit);
 
                 } else {
-                    // Isto é uma adição, adicione um novo item ao Firestore
+                    // Isto é uma adição, adicione um novo item ao Firestore enviando o novo item
                     addItemToFirestore(newItemName);
                 }
             }
         });
     }
 
+
+    //add um novo item no firestore
     private void addItemToFirestore(String itemName) {
         Map<String, Object> itemData = new HashMap<>();
         itemData.put("nome", itemName);
+        saveItemToSharedPreferences(itemName);
 
         db.collection("items")
                 .add(itemData)
@@ -86,9 +106,11 @@ public class AddItem extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
+                            Message(getString(R.string.item_adicionado_com_sucesso));
                             finish();
                         } else {
-                            // Trate erros aqui
+                            Message(getString(R.string.falhaadd));
+                            finish();
                         }
                     }
                 });
@@ -110,19 +132,21 @@ public class AddItem extends AppCompatActivity {
                             Map<String, Object> updates = new HashMap<>();
                             updates.put("nome", novoNome);
                             Log.d("Firestore", "ID do documento: " + documentId);
+                            updateItemInSharedPreferences(nomeItemOriginal, novoNome);
                             itenRef
                                     .update(updates)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             // Item atualizado com sucesso
-                                            Toast.makeText(AddItem.this, "Item atualizado com sucesso", Toast.LENGTH_SHORT).show();
+                                            Message(getString(R.string.itemupdate));
+
                                             finish();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(AddItem.this, "Item", Toast.LENGTH_SHORT).show();
+                                            Message(getString(R.string.falhaadd));
                                         }
                                     });
                         }
@@ -131,8 +155,30 @@ public class AddItem extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddItem.this, "Erro na consulta", Toast.LENGTH_SHORT).show();
+                        Message(getString(R.string.falhacoonsulta));
                     }
                 });
+
+
+}
+    public void Message(String message){
+        Toast.makeText(AddItem.this, message , Toast.LENGTH_SHORT).show();
+        finish();
+    }
+    // Adicionar um item ao SharedPreferences
+    private void saveItemToSharedPreferences(String itemName) {
+        SharedPreferences sharedPreferences = getSharedPreferences("item_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(itemName, itemName);
+        editor.apply();
+    }
+
+    // Atualizar um item no SharedPreferences
+    private void updateItemInSharedPreferences(String oldName, String newName) {
+        SharedPreferences sharedPreferences = getSharedPreferences("item_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(oldName); // Remove o item antigo
+        editor.putString(newName, newName); // Adiciona o item atualizado
+        editor.apply();
     }
 }

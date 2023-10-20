@@ -12,7 +12,7 @@
         android:layout_height="68dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:hint="Nome do Item" />
+        android:hint="@string/nome_do_item" />
 
     <Button
         android:id="@+id/saveButton"
@@ -21,7 +21,7 @@
         android:layout_below="@+id/itemNameEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Salvar"
+        android:text="@string/adicionar"
 
         />
 </RelativeLayout>

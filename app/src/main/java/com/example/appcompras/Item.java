@@ -1,5 +1,7 @@
 package com.example.appcompras;
 
+
+//classe item que sera instanciada no firestore
 public class Item {
     private String nome;
 
