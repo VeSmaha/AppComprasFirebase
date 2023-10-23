@@ -56,6 +56,8 @@ public class ShowItens extends AppCompatActivity implements ItemAdapter.ItemDele
         
     //inicializa a lista de itens e o Adapter com essa mesma lista
         itemList = new ArrayList<>();
+        //envia a lista de itens e o this para passar uma referência à
+        // instância atual da classe como um objeto que implementa a interface ItemDeleteListener
         itemAdapter = new ItemAdapter(itemList, this);
 
 //inicializa a reci=ycler view
@@ -63,6 +65,7 @@ public class ShowItens extends AppCompatActivity implements ItemAdapter.ItemDele
         //seta o adaptador
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //layout manager controla como os itens estao dispostos na tela
         recyclerView.setAdapter(itemAdapter);
 
         //carrega itens da lista do firestore
@@ -145,7 +148,7 @@ public class ShowItens extends AppCompatActivity implements ItemAdapter.ItemDele
     //função para gerar Toasts
     public void Message(String message){
         Toast.makeText(ShowItens.this, message , Toast.LENGTH_SHORT).show();
-        finish();
+
     }
 
     private void excluirItem(String nomeDoItem) {
@@ -173,7 +176,7 @@ public class ShowItens extends AppCompatActivity implements ItemAdapter.ItemDele
                                             public void onSuccess(Void aVoid) {
                                                 //mostra mensagem de sucesso e exclui o item localmente
                                                 Message(getString(R.string.item_excluido_com_sucesso));
-                                                deleteItemFromSharedPreferences(nomeDoItem);
+                                                //deleteItemFromSharedPreferences(nomeDoItem);
                                                 //carrega de novo a lista com as alteraçoes feitas
                                                 carregarItens();
                                             }
@@ -183,14 +186,10 @@ public class ShowItens extends AppCompatActivity implements ItemAdapter.ItemDele
                                             public void onFailure(@NonNull Exception e) {
                                                 //caso encontre erro
                                                 Message(getString(R.string.falhaexcluir));
-                                                finish();
+
                                             }
                                         });
                             }
-                        } else {
-                            //caso a busca falhe
-                            Message(getString(R.string.falhacoonsulta));
-                            finish();
                         }
                     }
                     //deleta do SharedPreferences

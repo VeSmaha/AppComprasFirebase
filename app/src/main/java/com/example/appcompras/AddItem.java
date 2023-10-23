@@ -96,43 +96,60 @@ public class AddItem extends AppCompatActivity {
 
     //add um novo item no firestore
     private void addItemToFirestore(String itemName) {
+
+        //criado um Map chamado itemData que armazena os dados
+        //a serem salvos no firestore
+        //par chave e valor, no caso "nome", itemName(veio do parametro)
         Map<String, Object> itemData = new HashMap<>();
+        //insere no Map, a chave nome e sua string
         itemData.put("nome", itemName);
+        //salva no shared Preferences
         saveItemToSharedPreferences(itemName);
 
+        //O Map é enviado á coleçao items
         db.collection("items")
                 .add(itemData)
                 .addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
+                        //mensagem de sucesso
                         if (task.isSuccessful()) {
                             Message(getString(R.string.item_adicionado_com_sucesso));
                             finish();
                         } else {
+                            //captura erro
                             Message(getString(R.string.falhaadd));
                             finish();
                         }
                     }
                 });
     }
-
+    //Atualiza item do firestore recebendo nome antigo e o novo nome
     public void updateItemInFirestore(String nomeItemOriginal, String novoNome) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference itemRef = db.collection("items");
+//Cria referencia á coleçao items do firestore
 
-
+        //consulta um item cujo nome é igual ao nomeItemOriginal passado
         itemRef
                 .whereEqualTo("nome", nomeItemOriginal).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        //percorre os documentos que foram obtidos da consulta
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            //armazena o id do item encontrado em uma var
                             String documentId = document.getId();
+                            //cria ref ao item encontrado com o id
                             DocumentReference itenRef = itemRef.document(documentId);
+                            //cria um novo Map com as novas atualizaçoes
                             Map<String, Object> updates = new HashMap<>();
+                            //coloca os novos nomes no Map
                             updates.put("nome", novoNome);
                             Log.d("Firestore", "ID do documento: " + documentId);
+                           //atualiza no sharedPreferences
                             updateItemInSharedPreferences(nomeItemOriginal, novoNome);
+                            //atualiza o banco com o novo map updates
                             itenRef
                                     .update(updates)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -145,6 +162,7 @@ public class AddItem extends AppCompatActivity {
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
+                                        //captura erro
                                         public void onFailure(@NonNull Exception e) {
                                             Message(getString(R.string.falhaadd));
                                         }
@@ -152,6 +170,7 @@ public class AddItem extends AppCompatActivity {
                         }
                     }
                 })
+                //captura erro
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -161,24 +180,31 @@ public class AddItem extends AppCompatActivity {
 
 
 }
+//gera mensgaem de toast
     public void Message(String message){
         Toast.makeText(AddItem.this, message , Toast.LENGTH_SHORT).show();
         finish();
     }
     // Adicionar um item ao SharedPreferences
     private void saveItemToSharedPreferences(String itemName) {
+        //Cria instancia do sharedPrefrences
         SharedPreferences sharedPreferences = getSharedPreferences("item_prefs", Context.MODE_PRIVATE);
+        //cria um objeto editor onde sera possivel editar o shared
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        //armazena a string recebida
         editor.putString(itemName, itemName);
+        //aplica alteraçoes
         editor.apply();
     }
 
     // Atualizar um item no SharedPreferences
     private void updateItemInSharedPreferences(String oldName, String newName) {
+        //Cria instancia do sharedPrefrences
         SharedPreferences sharedPreferences = getSharedPreferences("item_prefs", Context.MODE_PRIVATE);
+        //cria um objeto editor onde sera possivel editar o shared
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(oldName); // Remove o item antigo
         editor.putString(newName, newName); // Adiciona o item atualizado
-        editor.apply();
+        editor.apply();//aplica atualizaçoes
     }
 }
